@@ -1,5 +1,5 @@
 /*
- * ReLU Layer Test
+ * Matrix Math Test
  *
  */
 
