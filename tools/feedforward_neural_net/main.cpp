@@ -105,14 +105,12 @@ int main(int argc, char const *argv[])
 
         LOG(INFO) << "UPDATE WEIGHTS!!!" << endl;
         // Gradient Descent
-        secondLinearLayer.UpdateWeights(secondLinearLayer.GetAvgGrad(), learningRate);
-        firstLinearLayer.UpdateWeights(firstLinearLayer.GetAvgGrad(), learningRate);
+        secondLinearLayer.UpdateWeights(secondLinearLayer.GetAvgWeightGrad(), learningRate);
+        firstLinearLayer.UpdateWeights(firstLinearLayer.GetAvgWeightGrad(), learningRate);
 
         // Clear gradients for next loop
-        loss.ZeroGrad();
-        secondLinearLayer.ZeroGrad();
-        activationLayer.ZeroGrad();
-        firstLinearLayer.ZeroGrad();
+        secondLinearLayer.ZeroWeightGrad();
+        firstLinearLayer.ZeroWeightGrad();
     }
 
     return 0;

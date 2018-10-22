@@ -49,7 +49,6 @@ TMatrix ReLULayer::Backward(const TMatrix& a_origInput, const TMatrix& a_gradInp
             }
         }
     }
-    m_grads.push_back(grad);
     return grad;
 }
 

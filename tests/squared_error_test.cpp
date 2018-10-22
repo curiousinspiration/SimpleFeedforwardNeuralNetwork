@@ -33,10 +33,6 @@ TEST(SquaredErrorTest, TestBackward)
     // -2 * (target - input)
     float grad = loss.Backward(input, target);
     EXPECT_EQ(-1.0, grad);
-
-    // make sure it stored average gradient
-    float avg_grad = loss.GetAvgGrad();
-    EXPECT_EQ(avg_grad, grad);
 }
 
 TEST(SquaredErrorTest, TestBackwardAvgGrad)

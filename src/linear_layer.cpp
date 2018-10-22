@@ -68,7 +68,7 @@ TMatrix LinearLayer::Backward(const TMatrix& a_origInput, const TMatrix& a_gradI
     // Gradient wrt weights will be ........
     TMatrix gradWrtWeights = MatrixMath::Multiply(MatrixMath::Transpose(l_input), a_gradInput);
     LOG(INFO) << "LinearLayer::ComputeGrad gradWrtWeights: " << gradWrtWeights.size() << "x" << gradWrtWeights.at(0).size() << endl;
-    m_grads.push_back(gradWrtWeights);
+    m_weightGrads.push_back(gradWrtWeights);
 
     // Gradient with respect to output will be (grad from last layer) * weights
     // Weights is the gradient with the respect to output for this layer
@@ -104,6 +104,49 @@ void LinearLayer::UpdateWeights(const TMatrix& a_gradient, float a_learningRate)
 TMatrix& LinearLayer::GetMutableWeights()
 {
     return m_weights;
+}
+
+void LinearLayer::ZeroWeightGrad()
+{
+    m_weightGrads.clear();
+}
+
+TMatrix LinearLayer::GetAvgWeightGrad() const
+{
+    TMatrix average;
+    // Init with zeros
+    for (size_t i = 0; i < m_weightGrads.at(0).size(); ++i)
+    {
+        average.push_back(vector<float>());
+        for (size_t j = 0; j < m_weightGrads.at(0).at(i).size(); ++j)
+        {
+            average.at(i).push_back(0.0);
+        }
+    }
+
+    // Sum up
+    for (const TMatrix& grad : m_weightGrads)
+    {
+        for (size_t i = 0; i < grad.size(); ++i)
+        {
+            for (size_t j = 0; j < grad.at(i).size(); ++j)
+            {
+                average.at(i).at(j) += grad.at(i).at(j);
+            }
+        }
+    }
+
+    // Average
+    float numGrads = (float)m_weightGrads.size();
+    for (size_t i = 0; i < m_weightGrads.at(0).size(); ++i)
+    {
+        for (size_t j = 0; j < m_weightGrads.at(0).at(i).size(); ++j)
+        {
+            average.at(i).at(j) /= numGrads;
+        }
+    }
+
+    return average;
 }
 
 } // namespace neural
