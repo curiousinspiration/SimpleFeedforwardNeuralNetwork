@@ -73,4 +73,24 @@ TMatrix MatrixMath::Transpose(const TMatrix& a_mat)
     return l_ret;
 }
 
+TMatrix MatrixMath::AddCol(const TMatrix& a_mat, float a_val)
+{
+    TMatrix l_ret = a_mat;
+    for (size_t i = 0; i < l_ret.size(); ++i)
+    {
+        l_ret.at(i).push_back(a_val);
+    }
+    return l_ret;
+}
+
+TMatrix MatrixMath::RemoveCol(const TMatrix& a_mat)
+{
+    TMatrix l_ret = a_mat;
+    for (size_t i = 0; i < l_ret.size(); ++i)
+    {
+        l_ret.at(i).pop_back();
+    }
+    return l_ret;
+}
+
 } // namespace neural

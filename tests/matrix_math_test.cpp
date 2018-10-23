@@ -65,3 +65,49 @@ TEST(MatrixMathTest, TestTranspose)
     EXPECT_EQ(3.0, transpose.at(2).at(0));
     EXPECT_EQ(0.0, transpose.at(2).at(1));
 }
+
+TEST(MatrixMathTest, TestAddCol)
+{
+    TMatrix mat = {
+        {5.0, 4.0, 3.0},
+        {2.0, 1.0, 0.0}
+    };
+
+    
+    TMatrix newMat = MatrixMath::AddCol(mat, 1.0);
+    EXPECT_EQ(2, newMat.size());
+    EXPECT_EQ(4, newMat.at(0).size());
+
+    EXPECT_EQ(5.0, newMat.at(0).at(0));
+    EXPECT_EQ(4.0, newMat.at(0).at(1));
+    EXPECT_EQ(3.0, newMat.at(0).at(2));
+    EXPECT_EQ(1.0, newMat.at(0).at(3));
+
+    EXPECT_EQ(2.0, newMat.at(1).at(0));
+    EXPECT_EQ(1.0, newMat.at(1).at(1));
+    EXPECT_EQ(0.0, newMat.at(1).at(2));
+    EXPECT_EQ(1.0, newMat.at(1).at(3));
+}
+
+TEST(MatrixMathTest, TestRemoveCol)
+{
+    TMatrix mat = {
+        {5.0, 4.0, 3.0},
+        {2.0, 1.0, 0.0}
+    };
+
+    
+    TMatrix newMat = MatrixMath::RemoveCol(mat);
+    EXPECT_EQ(2, newMat.size());
+    EXPECT_EQ(2, newMat.at(0).size());
+
+    /*
+    5.0, 4.0,
+    2.0, 1.0,
+    */
+
+    EXPECT_EQ(5.0, newMat.at(0).at(0));
+    EXPECT_EQ(4.0, newMat.at(0).at(1));
+    EXPECT_EQ(2.0, newMat.at(1).at(0));
+    EXPECT_EQ(1.0, newMat.at(1).at(1));
+}

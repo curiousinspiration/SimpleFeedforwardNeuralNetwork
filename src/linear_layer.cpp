@@ -39,10 +39,7 @@ TMatrix LinearLayer::Forward(const TMatrix& a_input) const
     if (m_hasBias)
     {
         // add an extra column of 1s
-        for (size_t i = 0; i < l_input.size(); ++i)
-        {
-            l_input.at(i).push_back(1.0);
-        }
+        l_input = MatrixMath::AddCol(l_input, 1.0);
     }
 
     return MatrixMath::Multiply(l_input, m_weights);
@@ -59,10 +56,7 @@ TMatrix LinearLayer::Backward(const TMatrix& a_origInput, const TMatrix& a_gradI
     if (m_hasBias)
     {
         // add an extra column of 1s
-        for (size_t i = 0; i < l_input.size(); ++i)
-        {
-            l_input.at(i).push_back(1.0);
-        }
+        l_input = MatrixMath::AddCol(l_input, 1.0);
     }
 
     // Gradient wrt weights will be ........
@@ -78,11 +72,7 @@ TMatrix LinearLayer::Backward(const TMatrix& a_origInput, const TMatrix& a_gradI
 
     if (m_hasBias)
     {
-        // delete last column because we don't need to pass back bias info
-        for (size_t i = 0; i < gradWrtOutput.size(); ++i)
-        {
-            gradWrtOutput.at(i).pop_back();
-        }
+        gradWrtOutput = MatrixMath::RemoveCol(gradWrtOutput);
     }
 
     return gradWrtOutput;
